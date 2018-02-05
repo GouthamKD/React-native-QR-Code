@@ -18,107 +18,50 @@ import { StackNavigator } from 'react-navigation';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 export default class ScanScreen extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMarker: true
+    }
+  }
+
+
   onSuccess(e) {
-    Alert.alert('Scanning successful!!');
-    Linking
-      .openURL(e.data)
-      .catch(err => console.error('An error occured', err));
+    Alert.alert('QR code Scanning successful!!');
+
+    Alert.alert('data is', JSON.stringify(e));
+    // Linking
+    //   .openURL(e.data)
+    //   .catch(err => console.error('An error occured', err));
+  }
+
+  QRCodeactivate = () => {
+    Alert.alert('I am about to Re-Render the QR-Code')
+    this.scanner.reactivate();
   }
 
   render() {
     return (
-      <QRCodeScanner
+      //<QRCodeScanner
+      <QRCodeScanner ref={(node) => { this.scanner = node }}
+      showMarker={true}
         onRead={this.onSuccess.bind(this)}
         topContent={(
           <Text style={styles.centerText}>
-            Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
+          <Text style={styles.textBold}> Try Reading the QR-Code on your computer</Text>
           </Text>
         )}
         bottomContent={(
           <TouchableOpacity style={styles.buttonTouchable}>
-            <Text style={styles.buttonText}>OK. Got it!</Text>
+            <Text style={styles.buttonText} onPress={this.QRCodeactivate}>Ok Bro!! Tap here to Re-Scan</Text>
           </TouchableOpacity>
         )}
       />
     );
   }
 }
-
-// export default class ScanScreen extends Component {
-
-//   onSuccess(e) {
-//     Alert.alert('one');
-//     Linking.openURL(e.data).catch(err => console.error('An error occured', err));
-//   }
-
-
-//   render() {
-//     Alert.alert('Two');
-//     return (
-//       Alert.alert('Thrree'),
-
-
-//       <QRCodeScanner
-//         title='Scan Code'
-//         onRead={() => alert('Success')}
-//         topContent={(
-//           <Text style={styles.centerText}>
-//             Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
-//     </Text>
-//         )}
-//         bottomContent={(
-//           <TouchableOpacity style={styles.buttonTouchable}>
-//             <Text style={styles.buttonText}>OK. Got it!</Text>
-//           </TouchableOpacity>
-//         )}
-//       />);
-//   }
-// }
-
-// <Navigator
-//   initialRoute={{
-//     component: QRCodeScanner,
-//     title: 'Scan Code',
-//     passProps: {
-//       onRead: this.onSuccess.bind(this),
-//       topContent: (
-//         <Text style={styles.centerText}>
-//           Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
-//       </Text>
-//       ),
-//       bottomContent: (
-//         <TouchableOpacity style={styles.buttonTouchable}>
-//           <Text style={styles.buttonText}>OK. Got it!</Text>
-//         </TouchableOpacity>
-//       ),
-//     },
-//   }}
-//   style={{ flex: 1 }}
-// />
-
-// <NavigatorIOS
-//   initialRoute={{
-//     component: QRCodeScanner,
-//     title: 'Scan Code',
-//     passProps: {
-//       onRead: this.onSuccess.bind(this),
-//       topContent: (
-//         <Text style={styles.centerText}>
-//           Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
-//         </Text>
-//       ),
-//       bottomContent: (
-//         <TouchableOpacity style={styles.buttonTouchable}>
-//           <Text style={styles.buttonText}>OK. Got it!</Text>
-//         </TouchableOpacity>
-//       ),
-//     },
-//   }}
-//   style={{ flex: 1 }}
-// />
-//     );
-//   }
-// }
 
 const styles = StyleSheet.create({
   centerText: {
